@@ -12,6 +12,6 @@
   "dependencies": {
     "compression": "^1.6.1",
     "express": "^4.13.4",
-    "glad-component-compiler": "0.0.2"
+    "glad-component-compiler": "0.0.3"
   }
 }
