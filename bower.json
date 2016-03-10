@@ -16,10 +16,12 @@
     "node_modules",
     "bower_components",
     "public",
+    "demo",
     "src",
     "components",
     "index.js",
     "build.js",
+    "package.json",
     "test",
     "tests"
   ],
