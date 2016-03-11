@@ -1,4 +1,4 @@
-{id, reject, filter, find, obj-to-pairs, each, elem-index, map, last, pairs-to-obj} = UtilityPreludeLS
+{id, reject, filter, find, obj-to-pairs, each, elem-index, map, last, pairs-to-obj} = Polymer.GladPreludeLs
 elms = {}
 
 class Resource

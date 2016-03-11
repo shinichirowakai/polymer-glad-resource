@@ -30,6 +30,6 @@
     "iron-meta": "PolymerElements/iron-meta#~1.1.1",
     "iron-ajax": "PolymerElements/iron-ajax#~1.2.0",
     "iron-signals": "PolymerElements/iron-signals#~1.0.3",
-    "glad-prelude-ls": "~0.0.2"
+    "glad-prelude-ls": "~0.0.4"
   }
 }
