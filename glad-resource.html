@@ -186,6 +186,9 @@ GladResource = (function(){
   };
   prototype._persist = function(instance, cb){
     var x$, ajax;
+    if (instance.constructor !== this.domHost.resource_class) {
+      instance = this._create(instance);
+    }
     x$ = ajax = this._new_ajax;
     x$.set('method', 'POST');
     x$.set('url', this._url_to_persist);

@@ -57,6 +57,7 @@ class GladResource
     | not instance.id? => @_persist ...
     | _ => @_update ...
   _persist: (instance, cb)->
+    if instance@@ isnt @dom-host.resource_class then instance = @_create instance
     (ajax = @_new_ajax)
       ..set \method, \POST
       ..set \url, @_url_to_persist
