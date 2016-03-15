@@ -38,6 +38,9 @@ class GladResource
     @set \_meta_type, "glad-resource-#{@_namespace}"
   _fire_changed: -> @fire \changed
   _instantiate: (seed)-> new @dom-host.resource_class seed
+  _refetch: (cb)->
+    @_set_meta "iron-request-to-fetch-#{@_meta_key}", null
+    @_fetch cb
   _fetch: (cb)->
     if @_iron_request_to_fetch? then return
     (ajax = @_new_ajax)
@@ -52,7 +55,6 @@ class GladResource
   _complete_to_fetch: (_, {cb, ajax})~>
     @_set_meta "instances-#{@_meta_key}", (ajax.last-response |> map @~_instantiate)
     @fire \iron-signal, name: "resource-#{@_namespace}-fetched", data: key: @_meta_key
-    @_set_meta "iron-request-to-fetch-#{@_meta_key}", undefined
   _save: (instance, cb)->
     | not instance.id? => @_persist ...
     | _ => @_update ...
@@ -107,6 +109,7 @@ class GladResource
   _create: -> new ((_class = @dom-host.resource_class).bind.apply _class, ([_class] ++ (& |> map id)))
 
   # Public
+  refetch: -> @_refetch ...
   fetch: -> @_fetch ...
   save: -> @_save ...
   persist: -> @_persist ...
@@ -139,7 +142,7 @@ Polymer.GladResourceUserBehavior = {}
         type: Array
         notify: on
   ..<<<
-    <[fetch save persist update delete set_instances create]>
+    <[refetch fetch save persist update delete set_instances create]>
     |> map (method_name)->
       [method_name, ->
         (elm = @$$ \glad-resource).(method_name).apply elm, &

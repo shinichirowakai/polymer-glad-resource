@@ -146,6 +146,10 @@ GladResource = (function(){
   prototype._instantiate = function(seed){
     return new this.domHost.resource_class(seed);
   };
+  prototype._refetch = function(cb){
+    this._set_meta("iron-request-to-fetch-" + this._meta_key, null);
+    return this._fetch(cb);
+  };
   prototype._fetch = function(cb){
     var x$, ajax, this$ = this;
     if (this._iron_request_to_fetch != null) {
@@ -168,13 +172,12 @@ GladResource = (function(){
     cb = arg$.cb, ajax = arg$.ajax;
     this._set_meta("instances-" + this._meta_key, map(bind$(this, '_instantiate'))(
     ajax.lastResponse));
-    this.fire('iron-signal', {
+    return this.fire('iron-signal', {
       name: "resource-" + this._namespace + "-fetched",
       data: {
         key: this._meta_key
       }
     });
-    return this._set_meta("iron-request-to-fetch-" + this._meta_key, undefined);
   };
   prototype._save = function(instance, cb){
     switch (false) {
@@ -298,6 +301,9 @@ GladResource = (function(){
     return new ((_class = this.domHost.resource_class).bind.apply(_class, [_class].concat(map(id)(
     arguments))));
   };
+  prototype.refetch = function(){
+    return this._refetch.apply(this, arguments);
+  };
   prototype.fetch = function(){
     return this._fetch.apply(this, arguments);
   };
@@ -354,7 +360,7 @@ map(function(method_name){
     }
   ];
 })(
-['fetch', 'save', 'persist', 'update', 'delete', 'set_instances', 'create'])));
+['refetch', 'fetch', 'save', 'persist', 'update', 'delete', 'set_instances', 'create'])));
 function bind$(obj, key, target){
   return function(){ return (target || obj)[key].apply(obj, arguments) };
 }
