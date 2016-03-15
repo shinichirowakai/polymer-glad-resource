@@ -66,6 +66,7 @@ class GladResource
       ..generate-request! |> ( .cb = cb; it.instance = instance; it.ajax = ajax)
     @listen ajax, \response, \_complete_to_persist
   _complete_to_persist: (_, {cb, instance, ajax})->
+    unless @_instances? => cb? null, instance; return
     @_set_meta "instances-#{@_meta_key}", (@_instances ++ (instance <<< ajax.last-response))
     @fire \iron-signal, name: "resource-#{@_namespace}-changed", data: key: @_meta_key
     cb? null, instance

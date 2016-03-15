@@ -205,6 +205,12 @@ GladResource = (function(){
   prototype._complete_to_persist = function(_, arg$){
     var cb, instance, ajax;
     cb = arg$.cb, instance = arg$.instance, ajax = arg$.ajax;
+    if (this._instances == null) {
+      if (typeof cb == 'function') {
+        cb(null, instance);
+      }
+      return;
+    }
     this._set_meta("instances-" + this._meta_key, this._instances.concat(import$(instance, ajax.lastResponse)));
     this.fire('iron-signal', {
       name: "resource-" + this._namespace + "-changed",
